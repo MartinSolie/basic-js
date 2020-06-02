@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "lint": "./node_modules/.bin/eslint \"./**/*.js\"",
     "test": "mocha test.js"
   },
   "repository": {
@@ -25,7 +26,14 @@
   "homepage": "https://github.com/AlreadyBored/basic-js#readme",
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "mocha": "^7.0.1",
     "sinon": "^8.1.1"
-  }
+  },
+  "dependencies": {}
 }
