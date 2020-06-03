@@ -1,3 +1,4 @@
+
 class VigenereCipheringMachine {
   constructor(direct = true) {
     this.direct = direct;
@@ -11,14 +12,13 @@ class VigenereCipheringMachine {
       throw new Error('Message and key are mandatory for encrypting');
     }
 
-    const src = [...message.toUpperCase()];
     let j = 0;
-    for (let i = 0; i < src.length; i += 1) {
-      if (src[i] >= 'A' && src[i] <= 'Z') {
-        src[i] = this.encryptLetter(src[i], key[j]);
-        j = (j + 1) % key.length;
-      }
-    }
+    let src = [...message.toUpperCase()];
+    src = src.map(
+      (c) => (VigenereCipheringMachine.isLetter(c)
+        ? this.encryptLetter(c, key[j++ % key.length])
+        : c)
+    );
 
     if (!this.direct) {
       src.reverse();
@@ -32,14 +32,13 @@ class VigenereCipheringMachine {
       throw new Error('Encrypted message and key are mandatory for encrypting');
     }
 
-    const src = [...encryptedMessage.toUpperCase()];
     let j = 0;
-    for (let i = 0; i < src.length; i += 1) {
-      if (src[i] >= 'A' && src[i] <= 'Z') {
-        src[i] = this.decryptLetter(src[i], key[j]);
-        j = (j + 1) % key.length;
-      }
-    }
+    let src = [...encryptedMessage.toUpperCase()];
+    src = src.map(
+      (c) => (VigenereCipheringMachine.isLetter(c)
+        ? this.decryptLetter(c, key[j++ % key.length])
+        : c)
+    );
 
     if (!this.direct) {
       src.reverse();
@@ -68,6 +67,10 @@ class VigenereCipheringMachine {
       code += this.alphabetLength;
     }
     return String.fromCharCode(code);
+  }
+
+  static isLetter(letter) {
+    return letter >= 'A' && letter <= 'Z';
   }
 }
 

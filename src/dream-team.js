@@ -5,12 +5,13 @@ module.exports = function createDreamTeam(members) {
   }
 
   const isStr = (el) => typeof el === 'string';
-  const removeWhitespaces = (el) => el.trim();
-  const getFirstLetter = (name) => name.charAt(0).toUpperCase();
+  const getFirstLetter = (name) => name.trim().charAt(0).toUpperCase();
+  const getNamesFirstLetters = (acc, curr) => {
+    if (isStr(curr)) {
+      acc.push(getFirstLetter(curr));
+    }
+    return acc;
+  };
 
-  return members.filter(isStr)
-    .map(removeWhitespaces)
-    .map(getFirstLetter)
-    .sort()
-    .join('');
+  return members.reduce(getNamesFirstLetters, []).sort().join('');
 };

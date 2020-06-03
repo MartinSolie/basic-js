@@ -1,12 +1,10 @@
-function applyDefaultsIfNeeded(rawOptions) {
-  return {
-    separator: 'separator' in rawOptions ? rawOptions.separator : '+',
-    repeatTimes: 'repeatTimes' in rawOptions ? rawOptions.repeatTimes : 0,
-    addition: 'addition' in rawOptions ? `${rawOptions.addition}` : '',
-    additionSeparator: 'additionSeparator' in rawOptions ? rawOptions.additionSeparator : '|',
-    additionRepeatTimes: 'additionRepeatTimes' in rawOptions ? rawOptions.additionRepeatTimes : 0,
-  };
-}
+const defaultOptions = {
+  separator: '+',
+  repeatTimes: 0,
+  addition: '',
+  additionSeparator: '|',
+  additionRepeatTimes: 0,
+};
 
 function simpleRepeater(str, times, separator) {
   if (times < 1) {
@@ -22,14 +20,16 @@ function simpleRepeater(str, times, separator) {
 
 module.exports = function repeater(str, options) {
   const src = `${str}`;
-  const so = applyDefaultsIfNeeded(options);
 
-  const additionString = simpleRepeater(so.addition, so.additionRepeatTimes, so.additionSeparator);
-  return simpleRepeater(src + additionString, so.repeatTimes, so.separator);
+  const additionString = simpleRepeater(
+    'addition' in options ? String(options.addition) : defaultOptions.addition,
+    'additionRepeatTimes' in options ? options.additionRepeatTimes : defaultOptions.additionRepeatTimes,
+    'additionSeparator' in options ? options.additionSeparator : defaultOptions.additionSeparator,
+  );
 
-  // Or like this, then we do not need `simpleRepeater` function. However seems to be less efficient
-  // const additionString = Array(so.additionRepeatTimes)
-  //   .fill(so.addition)
-  //   .join(so.additionSeparator);
-  // return Array(so.repeatTimes).fill(src + additionString).join(so.separator);
+  return simpleRepeater(
+    src + additionString,
+    'repeatTimes' in options ? options.repeatTimes : defaultOptions.repeatTimes,
+    'separator' in options ? options.separator : defaultOptions.separator,
+  );
 };

@@ -6,7 +6,7 @@ const chainMaker = {
     return this.chain.length;
   },
   addLink(value) {
-    this.chain.push(`${value}`);
+    this.chain.push(value);
     return this;
   },
   removeLink(position) {
